@@ -49,7 +49,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 
-  height: 140vh;
+  /* height: 140vh; */
   background: linear-gradient(180deg, #192653 0%, #131d41 100%);
   color: #fff;
 }

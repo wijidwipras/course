@@ -141,19 +141,4 @@ export default {
     text-align:center;
   }
 }
-
-/* Gaya CSS untuk mode potret tablet */
-@media screen and (min-width: 600px) and (max-width: 767px) {
-  /* Atur tampilan untuk tablet mode potret di sini */
-}
-
-/* Gaya CSS untuk mode lanskap ponsel */
-@media screen and (min-width: 480px) and (max-width: 599px) {
-  /* Atur tampilan untuk ponsel mode lanskap di sini */
-}
-
-/* Gaya CSS untuk mode potret ponsel */
-@media screen and (max-width: 479px) {
-  /* Atur tampilan untuk ponsel mode potret di sini */
-}
 </style>

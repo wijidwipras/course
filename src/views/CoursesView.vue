@@ -4,13 +4,13 @@
     <b-row class="left-aligned-text">
       <b-col class="kategori" sm="3" cols="12">
         <h4 class="title-2">Kategori</h4>
-        <h6 v-for="(item, index) in items.data" :key="index" :value="index">{{ item.name }}</h6>
+        <h6 v-for="(item, index) in items.data" :key="index" :value="index"></h6>
 
         <!-- Elemen select untuk memilih kategori -->
         <b-form-group label="Pilih Kategori" v-slot="{ ariaDescribedby }">
-          <b-form-select v-model="selected" :aria-describedby="ariaDescribedby">
-            <option v-for="(item, index) in items.data" :key="index" :value="index">{{ item.name }}</option>
-          </b-form-select>
+          <b-form-radio-group v-model="selected" :aria-describedby="ariaDescribedby">
+            <b-form-radio class="kat-pil" v-for="(item, index) in items.data" :key="index" :value="index">{{ item.name }}</b-form-radio>
+          </b-form-radio-group>
         </b-form-group>
 
       </b-col>
@@ -20,7 +20,7 @@
           <b-col cols="8" sm="4" v-for="course in courses" :key="course.slug">
             <div class="card">
               <div class="card-head">
-                <img src="course.image" />
+                <img class="card-img" :src="course.image" />
               </div>
               <div class="card-body">
                 <span class="card-rating">⭐{{ course.rating }}</span>
@@ -42,21 +42,39 @@
 
 <script>
 import axios from "axios";
+import { MD5 } from "crypto-js";
 
 export default {
   data() {
     return {
       selected: [0],
       items: [],
+      hashedText: "",
     };
   },
   mounted() {
     // Data yang akan dikirim dalam permintaan POST
     const postData = {};
 
+      // Mendapatkan tanggal hari ini
+      const today = new Date();
+
+      // Mendapatkan tanggal dalam format DD (tambahkan 0 jika tanggal < 10)
+      const day = today.getDate() < 10 ? `0${today.getDate()}` : today.getDate();
+
+      // Mendapatkan bulan dalam format MM (tambahkan 0 jika bulan < 10)
+      const month = today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1;
+
+      // Menggabungkan kata-kata menjadi satu string dengan format yang diinginkan
+      const textToHash = `KarismaAcademy-${day}-${month}-23`;
+
+    // Lakukan hashing menggunakan fungsi MD5 dari crypto-js
+    this.hashedText = MD5(textToHash).toString();
+    console.log(textToHash + ":" +this.hashedText);
+
     // Header key dan values yang akan dikirimkan dalam permintaan POST
     const headers = {
-      signature: "935c150521d1b764d5a9ffb1640c3618",
+      signature: "6404eda93d8702724171cd52fa95bcb8",
       Authorization: "Bearer KarismaAcademy-05-08-23",
     };
 
@@ -89,11 +107,13 @@ export default {
 </script>
 
 <style>
-.kategori {
-  /* background-color: red; */
-}
-.list {
-  /* background-color: blue; */
+.kat-pil{
+  color: rgba(255, 255, 255, 0.60);
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 32px; /* 200% */
 }
 .card{
   border-radius: 0px 0px 6.871px 6.871px;
@@ -103,6 +123,10 @@ export default {
   padding: 1.374px 6.871px;
   border-radius: 68.709px;
   background: rgba(0, 0, 0, 0.10);
+}
+.card-img{
+  height: 150px;
+  width: auto;
 }
 .card-title{
   color: #000;
